@@ -7,3 +7,6 @@
 [submodule "Plugin/TwitterBootstrap"]
 	path = Plugin/TwitterBootstrap
 	url = https://github.com/angelxmoreno/TwitterBootstrap.git
+[submodule "Vendor/facebook-php-sdk"]
+	path = Vendor/facebook-php-sdk
+	url = https://github.com/angelxmoreno/facebook-php-sdk.git
