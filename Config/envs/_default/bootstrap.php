@@ -108,3 +108,5 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 CakePlugin::load('DebugKit');
+CakePlugin::load('TwitterBootstrap');
+Configure::write('TwitterBootstrap.AppName', 'GroupComments');

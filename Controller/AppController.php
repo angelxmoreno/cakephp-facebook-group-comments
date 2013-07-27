@@ -30,8 +30,69 @@ App::uses('Controller', 'Controller');
  *
  * @package		app.Controller
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
+ *
+ * @property AuthComponent $Auth
+ * @property SessionComponent $Session
  */
 class AppController extends Controller {
 
-	public $components = array('DebugKit.Toolbar');
+	/**
+	 * Components
+	 *
+	 * @var array
+	 */
+	public $components = array(
+	    'DebugKit.Toolbar',
+	    'Auth',
+	    'Session'
+	);
+
+	/**
+	 * Helpers
+	 *
+	 * @var array
+	 */
+	public $helpers = array(
+	    'Session',
+	    'Html' => array('className' => 'TwitterBootstrap.BootstrapHtml'),
+	    'Form' => array('className' => 'TwitterBootstrap.BootstrapForm'),
+	    'Paginator' => array('className' => 'TwitterBootstrap.BootstrapPaginator'),
+	);
+
+	/**
+	 * App Layout
+	 *
+	 * @var string
+	 */
+	public $layout = 'bootstrap';
+
+	/**
+	 * Layout Nav Links
+	 * @var array
+	 */
+	public $navLinks = array(
+	    'Home' => array(
+		'url' => '/'
+	    ),
+	    'Log Out' => array(
+		'url' => array('admin' => false, 'plugin' => null, 'controller' => 'users', 'action' => 'logout'),
+		'auth' => true,
+	    ),
+	    'Log In' => array(
+		'url' => array('admin' => false, 'plugin' => null, 'controller' => 'users', 'action' => 'login'),
+		'auth' => false,
+	    )
+	);
+
+	/**
+	 * beforeFilter callback
+	 *
+	 * @return void
+	 */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow();
+		$this->set('navLinks', $this->navLinks);
+	}
+
 }
