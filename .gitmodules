@@ -1,0 +1,3 @@
+[submodule "Lib/EnvSwitcher"]
+	path = Lib/EnvSwitcher
+	url = git://github.com/angelxmoreno/CakePHP-Environment-Switcher.git
