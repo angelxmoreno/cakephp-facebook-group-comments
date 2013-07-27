@@ -1,7 +1,54 @@
+# Ignore packed asset files
+webroot/css/packed/*
+!app/webroot/css/packed/.htaccess
+webroot/js/packed/*
+!app/webroot/js/packed/.htaccess
+
+# MAC
+.DS_Store
+
+# Windows
+Thumbs.db
+# Cake TMP Dirs
 tmp/*
-[Cc]onfig/core.php
-[Cc]onfig/database.php
-app/tmp/*
-app/[Cc]onfig/core.php
-app/[Cc]onfig/database.php
+!tmp/
+
+tmp/cache/*
+!tmp/cache/
+!tmp/cache/empty
+
+tmp/cache/models/*
+!tmp/cache/models/
+!tmp/cache/models/empty
+
+tmp/cache/persistent/*
+!tmp/cache/persistent/
+!tmp/cache/persistent/empty
+
+tmp/cache/views/*
+!tmp/cache/views/
+!tmp/cache/views/empty
+
+tmp/logs/*
+!tmp/logs/
+!tmp/logs/empty
+
+tmp/sessions/*
+!tmp/sessions/
+!tmp/sessions/empty
+
+tmp/tests/*
+!tmp/tests/
+!tmp/tests/empty
+
+
+[Cc]onfig/envs/*
+![Cc]onfig/envs/_default
 !empty
+
+# ignore bootstrap source and constructed files
+webroot/css/bootstrap*
+webroot/css/less
+webroot/js/bootstrap*
+webroot/js/lib
+webroot/img/glyphicons-halflings*
