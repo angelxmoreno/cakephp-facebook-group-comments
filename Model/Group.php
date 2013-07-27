@@ -69,7 +69,7 @@ class Group extends AppModel {
 	public $belongsTo = array(
 	    'Admin' => array(
 		'className' => 'User',
-		'foreignKey' => 'user_id',
+		'foreignKey' => 'admin_id',
 		'conditions' => '',
 		'fields' => '',
 		'order' => ''
