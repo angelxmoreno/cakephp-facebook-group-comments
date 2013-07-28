@@ -10,6 +10,45 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController {
 
 	/**
+	 * beforeFilter callback
+	 *
+	 * @return void
+	 */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('logout');
+	}
+
+	/**
+	 * login method
+	 *
+	 * @return void
+	 */
+	public function login() {
+		if ($this->Auth->loggedIn()) {
+			$this->_sessionError('You are already logged in. ');
+			$this->redirect($this->Auth->redirectUrl());
+		}
+		$this->set('auth_url', $this->facebookSdk->getLoginUrl());
+	}
+
+	/**
+	 * logout method
+	 *
+	 * @return void
+	 */
+	public function logout() {
+		if (!$this->Auth->loggedIn()) {
+			$this->_sessionError('You are not logged in yet. Please log in.');
+			$this->redirect($this->Auth->loginAction);
+		}
+		$return_url = $this->Auth->logout();
+		$return_url = $this->facebookSdk->getLogoutUrl(array('return_url' => $return_url));
+		$this->facebookSdk->clearAllPersistentData();
+		$this->redirect($return_url);
+	}
+
+	/**
 	 * index method
 	 *
 	 * @return void

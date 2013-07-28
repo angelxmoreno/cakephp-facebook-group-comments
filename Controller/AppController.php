@@ -1,4 +1,7 @@
 <?php
+
+App::uses('CakephpFacebook', 'Lib');
+
 /**
  * Application level Controller
  *
@@ -33,6 +36,7 @@ App::uses('Controller', 'Controller');
  *
  * @property AuthComponent $Auth
  * @property SessionComponent $Session
+ * @property CakephpFacebook $facebookSdk
  */
 class AppController extends Controller {
 
@@ -43,7 +47,22 @@ class AppController extends Controller {
 	 */
 	public $components = array(
 	    'DebugKit.Toolbar',
-	    'Auth',
+	    'Auth' => array(
+		'loginAction' => array(
+		    'admin' => false,
+		    'plugin' => null,
+		    'controller' => 'users',
+		    'action' => 'login',
+		),
+		'logoutRedirect' => array(
+		    'admin' => false,
+		    'plugin' => null,
+		    'controller' => 'users',
+		    'action' => 'login',
+		),
+		'loginRedirect' => '/',
+		'authError' => 'You need to authorize our app before you can continue',
+	    ),
 	    'Session'
 	);
 
@@ -85,14 +104,61 @@ class AppController extends Controller {
 	);
 
 	/**
+	 * An array containing the class names of models this controller uses.
+	 *
+	 * @var mixed A single name as a string or a list of names as an array.
+	 */
+	public $uses = array('User');
+
+	/**
 	 * beforeFilter callback
 	 *
 	 * @return void
 	 */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow();
+
+		$this->facebookSdk = new CakephpFacebook();
+		$this->_facebookSdkCheck();
+		$this->Auth->allow('display');
 		$this->set('navLinks', $this->navLinks);
+	}
+
+	protected function _facebookSdkCheck() {
+		if (!$this->Auth->loggedIn()) {
+			$uid = $this->facebookSdk->getUser();
+			$fbUser = false;
+			if ($uid) {
+				try {
+					$fbUser = $this->facebookSdk->api('/me');
+				} catch (FacebookApiException $e) {
+					$fbUser = false;
+				}
+			}
+			if ($fbUser) {
+				$fbUser['access_token'] = $this->facebookSdk->getAccessToken();
+				$this->User->save($fbUser);
+				$this->User->recursive = 0;
+				$user = $this->User->read(null, $fbUser['id']);
+				$this->Auth->login($user['User']);
+				$this->redirect($this->Auth->redirectUrl());
+			} else {
+				if(@$this->request->query['error_message'] && $this->request->query['state'] == $this->facebookSdk->getState())  {
+					$this->_sessionError($this->request->query['error_message']);
+				}
+				if (@$this->request->query['error_description'] && $this->request->query['state'] == $this->facebookSdk->getState()) {
+					$this->_sessionError($this->request->query['error_description']);
+				}
+			}
+		}
+	}
+
+	protected function _sessionError($msg) {
+		$this->Session->setFlash($msg, 'alert', array('plugin' => 'TwitterBootstrap', 'class' => 'alert-error'));
+	}
+
+	protected function _sessionInfo($msg) {
+		$this->Session->setFlash($msg, 'alert', array('plugin' => 'TwitterBootstrap', 'class' => 'alert-info'));
 	}
 
 }

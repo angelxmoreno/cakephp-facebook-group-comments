@@ -127,7 +127,6 @@
 			<?=
 			$this->Session->flash('flash', array(
 			    'element' => 'alert',
-			    'params' => array('plugin' => 'TwitterBootstrap'),
 			))
 			?>
 			<?=
