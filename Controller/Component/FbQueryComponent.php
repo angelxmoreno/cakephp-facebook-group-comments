@@ -17,18 +17,20 @@ class FbQueryComponent extends BaseFbQueryComponent {
 		'target_id' => 'to_id',
 		'like_info.like_count' => 'likes_count',
 		'comment_info.comment_count' => 'comments_count',
-		'created_time' => 'post_date'
+		'created_time' => 'post_date',
+		'icon' => 'icon_small',
+		'icon68' => 'icon_big'
 	    ),
 	);
 
 	public function getGroups($limit =  25) {
-		$fql['group'] = 'select gid, name, description, icon, creator, privacy from group where gid in(select gid from group_member where uid = me()) limit '  . $limit;
+		$fql['group'] = 'select gid, name, description, icon, icon68, creator, privacy from group where gid in(select gid from group_member where uid = me()) limit '  . $limit;
 		$results = $this->fql($fql);
 		return $results['group'];
 	}
 
 	public function getGroup($id, $limit = 25) {
-		$fql['group'] = 'select gid, name, description, icon, creator, privacy from group where gid  = ' .  $id;
+		$fql['group'] = 'select gid, name, description, icon, icon68, creator, privacy from group where gid  = ' .  $id;
 		$fql['post'] = 'select post_id, source_id, actor_id, target_id, message, like_info, comment_info, created_time from stream where source_id  = "' . $id . '" limit '  . $limit;
 		$results = $this->fql($fql);
 		$results['group'] = current($results['group']);

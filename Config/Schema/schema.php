@@ -1,4 +1,4 @@
-<?php 
+<?php
 class AppSchema extends CakeSchema {
 
 	public function before($event = array()) {
@@ -9,12 +9,13 @@ class AppSchema extends CakeSchema {
 	}
 
 	public $groups = array(
-		'id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'id' => array('type' => 'biginteger', 'null' => false, 'default' => false, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'description' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'privacy' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'members_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10),
-		'icon' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'icon_small' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'icon_big' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'admin_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'index'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
@@ -27,8 +28,8 @@ class AppSchema extends CakeSchema {
 	);
 
 	public $groups_users = array(
-		'group_id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'user_id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'key' => 'index'),
+		'group_id' => array('type' => 'biginteger', 'null' => false, 'default' => false, 'key' => 'primary'),
+		'user_id' => array('type' => 'biginteger', 'null' => false, 'default' => false, 'key' => 'index'),
 		'indexes' => array(
 			'group_id' => array('column' => 'group_id', 'unique' => 0),
 			'user_id' => array('column' => 'user_id', 'unique' => 0)
@@ -37,8 +38,8 @@ class AppSchema extends CakeSchema {
 	);
 
 	public $posts = array(
-		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'group_id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'key' => 'index'),
+		'id' => array('type' => 'string', 'null' => false, 'default' => false, 'length' => 100, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'group_id' => array('type' => 'biginteger', 'null' => false, 'default' => false, 'key' => 'index'),
 		'from_id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'key' => 'index'),
 		'to_id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'key' => 'index'),
 		'message' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -59,7 +60,7 @@ class AppSchema extends CakeSchema {
 	);
 
 	public $users = array(
-		'id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'id' => array('type' => 'biginteger', 'null' => false, 'default' => false, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 200, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'access_token' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'token_expires' => array('type' => 'datetime', 'null' => true, 'default' => null),
