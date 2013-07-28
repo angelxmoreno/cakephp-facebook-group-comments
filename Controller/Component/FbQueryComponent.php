@@ -9,6 +9,8 @@ class FbQueryComponent extends BaseFbQueryComponent {
 	    'group' => array(
 		'gid' => 'id',
 		'creator' => 'admin_id',
+		'icon' => 'icon_small',
+		'icon68' => 'icon_big'
 	    ),
 	    'post' => array(
 		'post_id' => 'id',
@@ -17,9 +19,7 @@ class FbQueryComponent extends BaseFbQueryComponent {
 		'target_id' => 'to_id',
 		'like_info.like_count' => 'likes_count',
 		'comment_info.comment_count' => 'comments_count',
-		'created_time' => 'post_date',
-		'icon' => 'icon_small',
-		'icon68' => 'icon_big'
+		'created_time' => 'post_date'
 	    ),
 	);
 
