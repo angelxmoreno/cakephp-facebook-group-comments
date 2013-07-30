@@ -20,8 +20,8 @@ class Post extends AppModel {
 	 */
 	public $validate = array(
 	    'id' => array(
-		'numeric' => array(
-		    'rule' => array('numeric'),
+		'notempty' => array(
+		    'rule' => array('notempty'),
 		    //'message' => 'Your custom message here',
 		    'allowEmpty' => false,
 		    'required' => true,

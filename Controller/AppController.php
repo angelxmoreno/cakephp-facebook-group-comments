@@ -46,7 +46,7 @@ class AppController extends Controller {
 	 * @var array
 	 */
 	public $components = array(
-	    'DebugKit.Toolbar',
+	    //'DebugKit.Toolbar',
 	    'Auth' => array(
 		'loginAction' => array(
 		    'admin' => false,
@@ -76,6 +76,7 @@ class AppController extends Controller {
 	    'Html' => array('className' => 'TwitterBootstrap.BootstrapHtml'),
 	    'Form' => array('className' => 'TwitterBootstrap.BootstrapForm'),
 	    'Paginator' => array('className' => 'TwitterBootstrap.BootstrapPaginator'),
+	    'FacebookCanvas'
 	);
 
 	/**
@@ -92,6 +93,9 @@ class AppController extends Controller {
 	public $navLinks = array(
 	    'Home' => array(
 		'url' => '/'
+	    ),
+	    'Groups' => array(
+		'url' => array('admin' => false, 'plugin' => null, 'controller' => 'groups', 'action' => 'index'),
 	    ),
 	    'Log Out' => array(
 		'url' => array('admin' => false, 'plugin' => null, 'controller' => 'users', 'action' => 'logout'),

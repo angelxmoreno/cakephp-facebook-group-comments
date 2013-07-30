@@ -1,0 +1,2 @@
+<?php
+echo $this->Html->link($this->Html->image($post['picture']), array('admin' => false, 'plugin' => null, 'controller' => 'posts', 'action' => 'view', $post['id']), array('class' => 'long-wait', 'escape' => false));

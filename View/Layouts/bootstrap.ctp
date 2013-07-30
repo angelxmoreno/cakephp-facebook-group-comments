@@ -71,6 +71,13 @@
 			body {
 				padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
 			}
+
+			#loading-indicator {
+				position: absolute;
+				left: 45%;
+				top: 45%;
+				z-index: 999;
+			}
 		</style>
 
 
@@ -94,6 +101,11 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 		<?= $this->Html->script('bootstrap.min') ?>
 		<?= $this->fetch('script') ?>
+		<script>
+		$(document).ready(function() {
+			$('.long-wait').on('click', function(){ $('#loading-indicator').show(); });
+		});
+		</script>
 	</head>
 
 	<body>
@@ -147,6 +159,6 @@
 		<!-- Le javascript
 	    ================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
-
+		<img src="/img/loading.gif" id="loading-indicator" style="display:none" />
 	</body>
 </html>

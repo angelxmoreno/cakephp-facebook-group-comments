@@ -2,7 +2,7 @@
 
 App::uses('Component', 'Controller');
 
-class BaseFbQueryComponent extends Component {
+class BaseFbApiComponent extends Component {
 	/**
 	 * sdk
 	 *
@@ -17,7 +17,7 @@ class BaseFbQueryComponent extends Component {
 	 *
 	 * @var boolean
 	 */
-	public $cache = true;
+	public $cache = false;
 
 	/**
 	 * Called after the Controller::beforeFilter() and before the controller action
@@ -65,12 +65,20 @@ class BaseFbQueryComponent extends Component {
 			$results = Cache::read($cacheKey, 'fbService');
 		}
 		if (!$results) {
-			$path = $this->_addAccessCodeToGraphPath($path, $access_code);
+			$method = (is_array($fql)) ? 'fql.multiquery' : 'fql.query';
+			$queryType = (is_array($fql)) ? 'queries' : 'query';
+			$params = array(
+			    'method' => $method,
+			    $queryType => $fql,
+			    'access_token' => $access_code
+			);
+
 			try {
-				$results = $this->_sdk->api($path);
+				$results = $this->_sdk->api($params);
 			} catch (Exception $e) {
 				throw new CakeException('Facebook Service Error: ' . $e->getMessage());
 			}
+			$results = (is_array($fql)) ? Hash::combine($results, '{n}.name', '{n}.fql_result_set') : $results;
 			Cache::write($cacheKey, $results, 'fbService');
 		}
 
@@ -79,21 +87,6 @@ class BaseFbQueryComponent extends Component {
 
 	protected function _cacheKey($params) {
 		return md5(serialize($params));
-	}
-
-	protected function _addAccessCodeToGraphPath($path, $access_code) {
-		$urlComps = parse_url($path);
-		// Get the current query string
-		$queryString = isset($urlComps['query']) ? $urlComps['query'] : '';
-		// Turn it into an array for easy manipulation
-		parse_str($queryString, $queryVars);
-		// Make changes to the query vars
-		$queryVars['access_code'] = $access_code;
-		// Empty paths return relative URLs.
-		$urlComps['path'] = isset($urlComps['path']) ? $urlComps['path'] : '/';
-		// Make the pecl_http call
-		$newURL = $urlComps['path'] . '?' . urldecode(http_build_query($queryVars));
-		return $newURL;
 	}
 
 }
