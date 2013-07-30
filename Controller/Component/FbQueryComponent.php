@@ -37,13 +37,13 @@ class FbQueryComponent extends BaseFbQueryComponent {
 	}
 
 	public function getGroup($group_id, $limit = 50) {
-		$fql['group'] =  sprintf($this->_fqls['group'], $group_id, $limit);
+		$fql['group'] =  sprintf($this->_fqls['group'], $group_id);
 		$results = $this->fql($fql);
 		$results = current($results['group']);
 		return $results;
 	}
 
-	public function getGroupPostsBypage($group_id, $page = 1, $limit = 5) {
+	public function getGroupPostsBypage($group_id, $page = 1, $limit = 10) {
 		$graph = sprintf($this->_graphs['group_posts'], $group_id, $limit);
 		$results[1] = $this->graph($graph);
 		if ($page > 1) {
@@ -156,8 +156,8 @@ class FbQueryComponent extends BaseFbQueryComponent {
 		foreach ($results['data'] as $key => $row) {
 			$results['data'][$key] = Hash::flatten($row, '_');
 		}
-		$results['paging']['previous'] = str_replace('https://graph.facebook.com', '', $results['paging']['previous']);
-		$results['paging']['next'] = str_replace('https://graph.facebook.com', '', $results['paging']['next']);
+		$results['paging']['previous'] = @str_replace('https://graph.facebook.com', '', $results['paging']['previous']);
+		$results['paging']['next'] = @str_replace('https://graph.facebook.com', '', $results['paging']['next']);
 		return $results;
 	}
 }

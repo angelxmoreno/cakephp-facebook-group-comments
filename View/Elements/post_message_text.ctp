@@ -1,5 +1,5 @@
 <?php
-echo $this->Html->link($this->Text->truncate(h($post['message']), 100, array(
+echo $this->Html->link($this->Text->truncate($post['message'], 100, array(
 'ellipsis' => '...',
  'exact' => true,
  'html' => false

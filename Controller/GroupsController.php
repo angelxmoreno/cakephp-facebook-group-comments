@@ -48,16 +48,18 @@ class GroupsController extends AppController {
 	}
 
 	public function group_posts_page($group_id, $page = 1) {
+		$this->autoRender = false;
 		$allowedToView = $this->FbQuery->allowedToViewGroup($group_id);
 		$posts = array();
 		if (!$allowedToView) {
 			$this->_sessionInfo('You are not a member of this non-public group! Please join the group to see its posts');
 		} else {
-			$results = $this->FbQuery->getGroupPostsBypage($group_id, $page);
+			$results = $this->FbQuery->getGroupPostsBypage($group_id, $page = 25);
 			$posts = $results['data'];
 			$this->Group->WallPost->saveMany($posts);
 		}
-		$this->set('posts', $posts);
+		//$this->set('posts', $posts);
+		echo json_encode($posts);
 	}
 
 	/**
