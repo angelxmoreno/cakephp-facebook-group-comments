@@ -73,7 +73,7 @@
 			}
 
 			#loading-indicator {
-				position: absolute;
+				position: fixed;
 				left: 45%;
 				top: 45%;
 				z-index: 999;
