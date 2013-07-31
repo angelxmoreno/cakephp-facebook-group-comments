@@ -17,6 +17,10 @@
 					'helpInline' => '<span class="label label-important">' . __('Required') . '</span>&nbsp;')
 				);
 				echo $this->BootstrapForm->input('message');
+				echo $this->BootstrapForm->input('type');
+				echo $this->BootstrapForm->input('full_picture');
+				echo $this->BootstrapForm->input('picture');
+				echo $this->BootstrapForm->input('link');
 				echo $this->BootstrapForm->input('likes_count', array(
 					'required' => 'required',
 					'helpInline' => '<span class="label label-important">' . __('Required') . '</span>&nbsp;')
@@ -26,6 +30,8 @@
 					'helpInline' => '<span class="label label-important">' . __('Required') . '</span>&nbsp;')
 				);
 				echo $this->BootstrapForm->input('parent_id');
+				echo $this->BootstrapForm->input('created_at');
+				echo $this->BootstrapForm->input('updated_at');
 				echo $this->BootstrapForm->hidden('id');
 				?>
 				<?php echo $this->BootstrapForm->submit(__('Submit'));?>

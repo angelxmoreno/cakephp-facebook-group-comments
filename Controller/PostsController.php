@@ -9,6 +9,8 @@ App::uses('AppController', 'Controller');
  */
 class PostsController extends AppController {
 
+	public $components = array('FbQuery');
+
 	/**
 	 * index method
 	 *
@@ -25,12 +27,22 @@ class PostsController extends AppController {
 	 * @param string $id
 	 * @return void
 	 */
-	public function view($id = null) {
-		$this->Post->id = $id;
+	public function view($post_id = null) {
+		$this->Post->id = $post_id;
 		if (!$this->Post->exists()) {
 			throw new NotFoundException(__('Invalid %s', __('post')));
 		}
-		$this->set('post', $this->Post->read(null, $id));
+		$group_id = $this->Post->field('group_id');
+		$results = $this->FbQuery->getGroupPostComments($group_id, $post_id, $limit = 500);
+		foreach ($results['comment'] as $key => $comment) {
+			$results['comment'][$key]['group_id'] = $group_id;
+			$results['comment'][$key]['created_at'] = date('Y-m-d H:i:s', $comment['created_at']);
+			$data[] = $results['comment'][$key];
+		}
+		$data[] = current($results['post']);
+		$this->Post->saveMany($data);
+		$post = $this->Post->read(null, $post_id);
+		$this->set('post', $post);
 	}
 
 	/**

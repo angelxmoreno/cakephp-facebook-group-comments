@@ -29,7 +29,7 @@
 		</tr>
 			<? $i = 0; ?>
 			<? foreach ($group['WallPost'] as $wallPost): $i++ ?>
-		<? if ($wallPost['type'] == 'status') : ?>
+		<? if ($wallPost['type'] == 'status' && @$wallPost['message']) : ?>
 		<tr>
 			<td><?= $this->FacebookCanvas->userImage($wallPost['from_id'], array('width' => 50, 'height' => 50)) ?></td>
 			<td>
@@ -37,6 +37,7 @@
 				<div class="comment_like">
 					<span><?= $wallPost['comments_count']; ?> Likes - </span>
 					<span><?= $wallPost['likes_count']; ?> Comments</span>
+					<p><?= $this->Html->link('View Post ' . $wallPost['id'], array('admin' => false, 'plugin' => null, 'controller' => 'posts', 'action' => 'view', $wallPost['id']), array('class' => 'long-wait')) ?></p>
 				</div>
 			</td>
 			<td><?= $this->Time->timeAgoInWords($wallPost['created_at'])?></td>

@@ -13,9 +13,15 @@
 				<th><?php echo $this->BootstrapPaginator->sort('from_id');?></th>
 				<th><?php echo $this->BootstrapPaginator->sort('to_id');?></th>
 				<th><?php echo $this->BootstrapPaginator->sort('message');?></th>
+				<th><?php echo $this->BootstrapPaginator->sort('type');?></th>
+				<th><?php echo $this->BootstrapPaginator->sort('full_picture');?></th>
+				<th><?php echo $this->BootstrapPaginator->sort('picture');?></th>
+				<th><?php echo $this->BootstrapPaginator->sort('link');?></th>
 				<th><?php echo $this->BootstrapPaginator->sort('likes_count');?></th>
 				<th><?php echo $this->BootstrapPaginator->sort('comments_count');?></th>
 				<th><?php echo $this->BootstrapPaginator->sort('parent_id');?></th>
+				<th><?php echo $this->BootstrapPaginator->sort('created_at');?></th>
+				<th><?php echo $this->BootstrapPaginator->sort('updated_at');?></th>
 				<th><?php echo $this->BootstrapPaginator->sort('modified');?></th>
 				<th><?php echo $this->BootstrapPaginator->sort('created');?></th>
 				<th class="actions"><?php echo __('Actions');?></th>
@@ -33,11 +39,17 @@
 					<?php echo $this->Html->link($post['Recipient']['name'], array('controller' => 'users', 'action' => 'view', $post['Recipient']['id'])); ?>
 				</td>
 				<td><?php echo h($post['Post']['message']); ?>&nbsp;</td>
+				<td><?php echo h($post['Post']['type']); ?>&nbsp;</td>
+				<td><?php echo h($post['Post']['full_picture']); ?>&nbsp;</td>
+				<td><?php echo h($post['Post']['picture']); ?>&nbsp;</td>
+				<td><?php echo h($post['Post']['link']); ?>&nbsp;</td>
 				<td><?php echo h($post['Post']['likes_count']); ?>&nbsp;</td>
 				<td><?php echo h($post['Post']['comments_count']); ?>&nbsp;</td>
 				<td>
 					<?php echo $this->Html->link($post['ParentPost']['id'], array('controller' => 'posts', 'action' => 'view', $post['ParentPost']['id'])); ?>
 				</td>
+				<td><?php echo h($post['Post']['created_at']); ?>&nbsp;</td>
+				<td><?php echo h($post['Post']['updated_at']); ?>&nbsp;</td>
 				<td><?php echo h($post['Post']['modified']); ?>&nbsp;</td>
 				<td><?php echo h($post['Post']['created']); ?>&nbsp;</td>
 				<td class="actions">

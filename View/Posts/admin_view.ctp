@@ -27,6 +27,26 @@
 				<?php echo h($post['Post']['message']); ?>
 				&nbsp;
 			</dd>
+			<dt><?php echo __('Type'); ?></dt>
+			<dd>
+				<?php echo h($post['Post']['type']); ?>
+				&nbsp;
+			</dd>
+			<dt><?php echo __('Full Picture'); ?></dt>
+			<dd>
+				<?php echo h($post['Post']['full_picture']); ?>
+				&nbsp;
+			</dd>
+			<dt><?php echo __('Picture'); ?></dt>
+			<dd>
+				<?php echo h($post['Post']['picture']); ?>
+				&nbsp;
+			</dd>
+			<dt><?php echo __('Link'); ?></dt>
+			<dd>
+				<?php echo h($post['Post']['link']); ?>
+				&nbsp;
+			</dd>
 			<dt><?php echo __('Likes Count'); ?></dt>
 			<dd>
 				<?php echo h($post['Post']['likes_count']); ?>
@@ -40,6 +60,16 @@
 			<dt><?php echo __('Parent Post'); ?></dt>
 			<dd>
 				<?php echo $this->Html->link($post['ParentPost']['id'], array('controller' => 'posts', 'action' => 'view', $post['ParentPost']['id'])); ?>
+				&nbsp;
+			</dd>
+			<dt><?php echo __('Created At'); ?></dt>
+			<dd>
+				<?php echo h($post['Post']['created_at']); ?>
+				&nbsp;
+			</dd>
+			<dt><?php echo __('Updated At'); ?></dt>
+			<dd>
+				<?php echo h($post['Post']['updated_at']); ?>
 				&nbsp;
 			</dd>
 			<dt><?php echo __('Modified'); ?></dt>
@@ -84,9 +114,15 @@
 				<th><?php echo __('From Id'); ?></th>
 				<th><?php echo __('To Id'); ?></th>
 				<th><?php echo __('Message'); ?></th>
+				<th><?php echo __('Type'); ?></th>
+				<th><?php echo __('Full Picture'); ?></th>
+				<th><?php echo __('Picture'); ?></th>
+				<th><?php echo __('Link'); ?></th>
 				<th><?php echo __('Likes Count'); ?></th>
 				<th><?php echo __('Comments Count'); ?></th>
 				<th><?php echo __('Parent Id'); ?></th>
+				<th><?php echo __('Created At'); ?></th>
+				<th><?php echo __('Updated At'); ?></th>
 				<th><?php echo __('Modified'); ?></th>
 				<th><?php echo __('Created'); ?></th>
 				<th class="actions"><?php echo __('Actions');?></th>
@@ -98,9 +134,15 @@
 				<td><?php echo $childPost['from_id'];?></td>
 				<td><?php echo $childPost['to_id'];?></td>
 				<td><?php echo $childPost['message'];?></td>
+				<td><?php echo $childPost['type'];?></td>
+				<td><?php echo $childPost['full_picture'];?></td>
+				<td><?php echo $childPost['picture'];?></td>
+				<td><?php echo $childPost['link'];?></td>
 				<td><?php echo $childPost['likes_count'];?></td>
 				<td><?php echo $childPost['comments_count'];?></td>
 				<td><?php echo $childPost['parent_id'];?></td>
+				<td><?php echo $childPost['created_at'];?></td>
+				<td><?php echo $childPost['updated_at'];?></td>
 				<td><?php echo $childPost['modified'];?></td>
 				<td><?php echo $childPost['created'];?></td>
 				<td class="actions">

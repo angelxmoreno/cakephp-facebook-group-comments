@@ -19,15 +19,26 @@ class FbQueryComponent extends BaseFbQueryComponent {
 		'comment_info.comment_count' => 'comments_count',
 		'created_time' => 'post_date'
 	    ),
+	    'comment' => array(
+		'post_id' => 'parent_id',
+		'fromid' => 'from_id',
+		'text' => 'message',
+		'likes' => 'likes_count',
+		'comment_count' => 'comments_count',
+		'time' => 'created_at'
+	    ),
 	);
 	protected $_fqls = array(
 	    'members_groups' => 'select gid, name, description, icon, icon68, creator, privacy from group where gid in(SELECT gid FROM group_member WHERE uid = %s)',
 	    'group' => 'select gid, name, description, icon, icon68, creator, privacy from group where gid  = "%s"',
 	    'group_posts' => 'select post_id, source_id, actor_id, target_id, message, like_info, comment_info, created_time from stream where type = 308 and source_id  = "%s" ORDER BY created_time DESC limit %u offset %u',
+	    'post' => 'select post_id, source_id, actor_id, target_id, message, like_info, comment_info, created_time from stream where post_id = "%s"',
 	    'is_group_member' => 'SELECT gid FROM group_member WHERE uid = me() and gid = "%s"',
+	    'post_comment' => 'SELECT id, post_id,fromid, text, likes, comment_count, time FROM comment WHERE post_id = "%s" ORDER BY time ASC limit %u'
 	);
 	protected $_graphs = array(
 	    'group_posts' => '%s/feed/?fields=id,from,to,message,created_time,updated_time,type,picture,full_picture,link&limit=%u',
+	//'post_comments' => '%s?fields=comments.limit(%u).fields(comment_count,created_time,from,id,like_count,message,parent,attachment)'
 	);
 
 	public function getGroups($user_id = 'me()', $limit = 50) {
@@ -57,6 +68,7 @@ class FbQueryComponent extends BaseFbQueryComponent {
 		$postsData['data'] = array_combine($post_ids, $postsData['data']);
 		$fql = 'select post_id, comment_info, likes from stream where post_id in("' . implode('","', $post_ids) . '")';
 		$postsMeta = $this->fql($fql);
+		$users = array();
 		foreach ($postsMeta as $postMeta) {
 			$postsData['data'][$postMeta['post_id']]['comments_count'] = $postMeta['comment_info']['comment_count'];
 			$postsData['data'][$postMeta['post_id']]['likes_count'] = $postMeta['likes']['count'];
@@ -67,18 +79,27 @@ class FbQueryComponent extends BaseFbQueryComponent {
 			$postsData['data'][$postMeta['post_id']]['group_id'] = $group_id;
 			$postsData['data'][$postMeta['post_id']]['to_id'] = $postsData['data'][$postMeta['post_id']]['to_data_0_id'];
 			//$postsData['data'][$postMeta['post_id']]['from_id'] = $postsData['data'][$postMeta['post_id']]['from_id'];
+			$user_id = $postsData['data'][$postMeta['post_id']]['from_id'];
+			$user_name = $postsData['data'][$postMeta['post_id']]['from_name'];;
+			$users[$user_id  . '_'] = array('id' => $user_id, 'name' => $user_name);
 		}
+		$postsData['users'] = array_values($users);
 		return $postsData;
 	}
 
-	public function getPostComments() {
-		$fql['comment'] = '
-			SELECT id, object_id, post_id,parent_id,fromid, text, likes, comment_count, time
-			FROM comment WHERE
-			post_id = ""
-			ORDER BY time ASC
-			limit 100';
-		return null;
+	public function getPostComments($post_id, $limit = 500) {
+		$fql['comment'] = sprintf($this->_fqls['post_comment'], $post_id, $limit);
+		$results = $this->fql($fql);
+		return $results;
+	}
+
+	public function getGroupPostComments($group_id, $post_id, $limit = 500) {
+		$fql['group'] = sprintf($this->_fqls['group'], $group_id);
+		$fql['post'] = sprintf($this->_fqls['post'], $post_id);
+		$fql['comment'] = sprintf($this->_fqls['post_comment'], $post_id, $limit);
+
+		$results = $this->fql($fql);
+		return $results;
 	}
 
 	public function allowedToViewGroup($group_id) {
