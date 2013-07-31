@@ -39,6 +39,8 @@ class GroupsController extends AppController {
 		$postsData = $this->FbQuery->getGroupPostsBypage($group_id, $page = 1, $limit = 25);
 		$posts = $postsData['data'];
 		$this->Group->WallPost->saveMany($posts);
+		$users = $postsData['users'];
+		$this->Group->Admin->saveMany($users);
 		if (!$allowedToView) {
 			$this->_sessionInfo('You are not a member of this non-public group! Please join the group to see its posts');
 		} else {
@@ -54,7 +56,7 @@ class GroupsController extends AppController {
 		if (!$allowedToView) {
 			$this->_sessionInfo('You are not a member of this non-public group! Please join the group to see its posts');
 		} else {
-			$results = $this->FbQuery->getGroupPostsBypage($group_id, $page = 25);
+			$results = $this->FbQuery->getGroupPostsBypage($group_id, $page);
 			$posts = $results['data'];
 			$this->Group->WallPost->saveMany($posts);
 		}
