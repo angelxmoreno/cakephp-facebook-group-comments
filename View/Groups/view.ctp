@@ -57,8 +57,10 @@
 		event.preventDefault();
 		$('#loading-indicator').show();
 		nextPage = postsPage+1;
-
-		var jqxhr = $.getJSON(fetchPostsUrl + groupId + '/' + nextPage, function(data) {
+		console.log(nextPage);
+		url2fetch = fetchPostsUrl + groupId + '/' + nextPage;
+		console.log(url2fetch);
+		$.getJSON(url2fetch, function(data) {
 			newRow = '';
 			$.each(data, function(index, elem){
 				newRow = newRow + buildRow(elem);
