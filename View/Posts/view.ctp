@@ -58,8 +58,8 @@
 </div>
 
 <div class="row-fluid">
-		<h3><?=__('Related %s', __('Posts')) ?></h3>
 	<?php if (!empty($post['ChildPost'])):?>
+		<h3>Comments</h3>
 		<table class="table">
 			<tr>
 				<th></th>
@@ -80,5 +80,7 @@
 			</tr>
 		<?php endforeach ?>
 		</table>
+	<? else : ?>
+		<h3>No comments yet</h3>
 	<?php endif ?>
 </div>

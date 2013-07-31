@@ -10,7 +10,9 @@
 			</dd>
 			<dt><?= __('Description') ?></dt>
 			<dd>
-				<?= h($group['Group']['description']) ?>
+			<xmp>
+				<?= ($group['Group']['description']) ?>
+			</xmp>
 				&nbsp;
 			</dd>
 
